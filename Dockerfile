@@ -36,8 +36,8 @@ COPY package*.json ./
 # Install only production dependencies
 RUN npm i --only=production
 # Copy transpiled js from builder stage into the final image
-COPY --from=builder /app/dist ./dist
-# Copy src/server into final image 
+COPY --from=builder /app/public ./public
+# Copy src/server into final image
 COPY src/server ./src/server
 
 # port 80 is mandatory for webroot challenge

@@ -8,7 +8,7 @@ const logger = loggerFactory('Server');
 const authenticationUsers = (usersString) => {
 
   const authenticationParams = usersString.split(';');
-  
+
   const users = authenticationParams.flatMap( auth => {
     const userPasswordPair = auth.split(':');
     return {
@@ -35,8 +35,7 @@ if(enableSsl) {
   autoSsl(app);
   logger.info('Starting service with letsencrypt.org integration (use https)!');
 } else {
-  const serverPort = 3000;
+  const serverPort = 3002;
   logger.info(`Starting service on port ${serverPort}!`);
   app.listen(serverPort);
 }
-

@@ -12,11 +12,11 @@ const setupExpressApp = (mailHandler, apiAuthentication, mockedApiAuthentication
   app.post('/v3/mail/send', (req, res) => {
 
     const reqApiKey = req.headers.authorization;
-    
+
     if (reqApiKey === `Bearer ${mockedApiAuthenticationKey}`) {
-      
+
       mailHandler.addMail(req.body);
-  
+
       res.sendStatus(202);
     } else {
       res.status(403).send({
@@ -29,7 +29,7 @@ const setupExpressApp = (mailHandler, apiAuthentication, mockedApiAuthentication
       });
     }
   });
-  
+
   if (apiAuthentication.enabled) {
 
     app.use(basicAuth({ challenge: true, users: apiAuthentication.users }));
@@ -42,14 +42,14 @@ const setupExpressApp = (mailHandler, apiAuthentication, mockedApiAuthentication
       subject: req.query.subject,
       dateTimeSince: req.query.dateTimeSince,
     };
-  
+
     const paginationCriteria = {
       page: req.query.page,
       pageSize: req.query.pageSize,
     };
-  
+
     const mails = mailHandler.getMails(filterCriteria, paginationCriteria);
-    
+
     res.send(mails);
   });
 
@@ -58,17 +58,17 @@ const setupExpressApp = (mailHandler, apiAuthentication, mockedApiAuthentication
     const filterCriteria = {
       to: req.query.to,
     };
-  
+
     mailHandler.clear(filterCriteria);
-  
+
     res.send(202);
   });
-  
-  app.use(express.static(path.join(__dirname, '../../dist')));
+
+  app.use(express.static(path.join(__dirname, '../../public')));
   app.get('/', function (req, res) {
-    res.sendFile(path.join(__dirname, '../../dist', 'index.html'));
+    res.sendFile(path.join(__dirname, '../../public', 'index.html'));
   });
-  
+
   return app;
 };
 
